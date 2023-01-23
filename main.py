@@ -7,7 +7,7 @@ from flask import render_template  # import render_template from "public" flask 
 from __init__ import app,db  # Definitions initialization
 from model.jokes import initJokes
 from model.users import initUsers
-from model.score import initScores
+from model.scores import initScores
 
 # setup APIs
 from api.covid import covid_api # Blueprint import api definition
