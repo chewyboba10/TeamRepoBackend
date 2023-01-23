@@ -102,8 +102,9 @@ def initScores():
     u2 = Score('Jishnu', 'test', '20', date(2023, 1, 21))
     u3 = Score('Max', 'mmaxwu', '10', date(2023, 1, 20))
     u4 = Score('Evan', 'chewyboba', '15', date(2023, 1, 19))
+    u5 = Score('Bob', 'bob123', '100', date(2023, 1, 22))
 
-    users = [u1, u2, u3, u4]
+    users = [u1, u2, u3, u4, u5]
 
     """Builds sample user/note(s) data"""
     for user in users:
