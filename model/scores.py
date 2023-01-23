@@ -65,7 +65,7 @@ class Score(db.Model):
     # output content using str(object) in human readable form, uses getter
     # output content using json dumps, this is ready for API response
     def __str__(self):
-        return json.dumps(self.read())
+        return json.dumps(self.make_dict())
 
     # CRUD create/add a new record to the table
     # returns self or None on error
