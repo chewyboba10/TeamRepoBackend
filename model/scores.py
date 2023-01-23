@@ -2,7 +2,7 @@
 from datetime import date
 import json
 
-from __init__ import db
+from __init__ import app, db
 from sqlalchemy.exc import IntegrityError
 
 class Score(db.Model):
@@ -100,8 +100,8 @@ def initScores():
     """Tester data for table"""
     u1 = Score('Alan', 'A1234l', '12', date(2023, 1, 22))
     u2 = Score('Jishnu', 'test', '20', date(2023, 1, 21))
-    u3 = Score('Max', 'test', '10', date(2023, 1, 20))
-    u4 = Score('Evan', 'test', '15', date(2023, 1, 19))
+    u3 = Score('Max', 'mmaxwu', '10', date(2023, 1, 20))
+    u4 = Score('Evan', 'chewyboba', '15', date(2023, 1, 19))
 
     users = [u1, u2, u3, u4]
 
