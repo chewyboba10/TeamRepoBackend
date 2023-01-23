@@ -33,6 +33,11 @@ class ScoreAPI(Resource):
                 sob.dos = datetime.strptime(dos, '%m-%d-%Y').date()
             except:
                 return {'message': f'Date obtained score format error {dos}, must be mm-dd-yyyy'}, 210
+        
+        user = sob.create()
+        if user:
+            return jsonify(user.make_dict())
+        return {'message': f'Processed {name}, either a fromat error or User ID {username} is duplicate'}, 210
 
 class ScoreListAPI(Resource):
     def get(self):
