@@ -32,12 +32,7 @@ class ScoreAPI(Resource):
         user = sob.create()
         if user:
             return jsonify(user.make_dict())
-        return {'message': f'Processed {name}, either a fromat error or User ID {username} is duplicate'}, 210
-
-        user = sob.create()
-        if user:
-            return jsonify(user.make_dict())
-        return {'message': f'User ID {username} is duplicate'}, 210
+        return {'message': f'Processed {username}, either a fromat error or User ID {username} is duplicate'}, 210
 
 class ScoreListAPI(Resource):
     def get(self):
@@ -45,6 +40,6 @@ class ScoreListAPI(Resource):
         json_ready = [user.make_dict() for user in scores]
         return jsonify(json_ready)
 
-scores_api.add_resource(ScoreAPI, '/scores')
+scores_api.add_resource(ScoreAPI, '/addScore')
 scores_api.add_resource(ScoreListAPI, '/scoresList')
 
