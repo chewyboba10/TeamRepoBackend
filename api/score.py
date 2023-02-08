@@ -32,12 +32,7 @@ class ScoreAPI(Resource):
         user = sob.create()
         if user:
             return jsonify(user.make_dict())
-        return {'message': f'Processed {name}, either a fromat error or User ID {username} is duplicate'}, 210
-
-        user = sob.create()
-        if user:
-            return jsonify(user.make_dict())
-        return {'message': f'User ID {username} is duplicate'}, 210
+        return {'message': f'Processed {username}, either a format error or User ID {username} is duplicate'}, 210
 
 class ScoreListAPI(Resource):
     def get(self):
