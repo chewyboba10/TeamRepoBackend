@@ -107,7 +107,7 @@ def initScores():
     """Create database and tables"""
     db.create_all()
     """Tester data for table"""
-    u1 = Score('AAA', date(2023, 1, 22))
+    u1 = Score('AAA', '12', date(2023, 1, 22))
     u2 = Score('AAB', '20', date(2023, 1, 21))
     u3 = Score('AAC', '10', date(2023, 1, 20))
     u4 = Score('AAD', '15', date(2023, 1, 19))
