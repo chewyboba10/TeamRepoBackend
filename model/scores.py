@@ -104,23 +104,27 @@ class Score(db.Model):
 
 # Builds working data for testing
 def initScores():
-    """Create database and tables"""
-    db.create_all()
-    """Tester data for table"""
-    u1 = Score('AAA', '12', date(2023, 1, 22))
-    u2 = Score('AAB', '20', date(2023, 1, 21))
-    u3 = Score('AAC', '10', date(2023, 1, 20))
-    u4 = Score('AAD', '15', date(2023, 1, 19))
-    u5 = Score('AAE', '100', date(2023, 1, 22))
+    with app.app_context():
+        """Create database and tables"""
+        db.init_app(app)
+        db.create_all()
+        """Create database and tables"""
+        db.create_all()
+        """Tester data for table"""
+        u1 = Score('AAA', '12', date(2023, 1, 22))
+        u2 = Score('AAB', '20', date(2023, 1, 21))
+        u3 = Score('AAC', '10', date(2023, 1, 20))
+        u4 = Score('AAD', '15', date(2023, 1, 19))
+        u5 = Score('AAE', '100', date(2023, 1, 22))
 
-    users = [u1, u2, u3, u4, u5]
+        users = [u1, u2, u3, u4, u5]
 
-    """Builds sample user/note(s) data"""
-    for user in users:
-        try:
-            user.create()
-        except IntegrityError:
-            '''fails with bad or duplicate data'''
-            db.session.remove()
-            print(f"Records exist, duplicate email, or error: {user.uid}")
-    
+        """Builds sample user/note(s) data"""
+        for user in users:
+            try:
+                user.create()
+            except IntegrityError:
+                '''fails with bad or duplicate data'''
+                db.session.remove()
+                print(f"Records exist, duplicate email, or error: {user.uid}")
+        
