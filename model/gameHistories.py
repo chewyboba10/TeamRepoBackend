@@ -96,23 +96,24 @@ class History(db.Model):
 
 # Builds working data for testing
 def initHistories():
-    """Create database and tables"""
-    db.create_all()
-    """Tester data for table"""
-    u1 = History('A1234l', '12', date(2023, 1, 22),'00:00:01')
-    u2 = History('test', '20', date(2023, 1, 21), '12:12:12')
-    u3 = History('mmaxwu', '10', date(2023, 1, 20), '13:13:14')
-    u4 = History('chewyboba', '15', date(2023, 1, 19), '14:14:16')
-    u5 = History('bob123', '100', date(2023, 1, 22), '20:20:12')
+    with app.app_context():
+        """Create database and tables"""
+        db.create_all()
+        """Tester data for table"""
+        u1 = History('ABC', '12', date(2023, 1, 22),'00:00:01')
+        u2 = History('TES', '20', date(2023, 1, 21), '12:12:12')
+        u3 = History('MKO', '10', date(2023, 1, 20), '13:13:14')
+        u4 = History('HGI', '15', date(2023, 1, 19), '14:14:16')
+        u5 = History('FDM', '100', date(2023, 1, 22), '20:20:12')
 
-    users = [u1, u2, u3, u4, u5]
+        users = [u1, u2, u3, u4, u5]
 
-    """Builds sample user/note(s) data"""
-    for user in users:
-        try:
-            user.create()
-        except IntegrityError:
-            '''fails with bad or duplicate data'''
-            db.session.remove()
-            print(f"Records exist, duplicate email, or error: {user.uid}")
+        """Builds sample user/note(s) data"""
+        for user in users:
+            try:
+                user.create()
+            except IntegrityError:
+                '''fails with bad or duplicate data'''
+                db.session.remove()
+                print(f"Records exist, duplicate email, or error: {user.username}")
             

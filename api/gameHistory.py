@@ -24,7 +24,8 @@ class HistoryAPI_Create(Resource):
 
         tos = data.get('tos')
 
-        userPerson = History(username=username)
+        userPerson = History(username=username,
+                             score=score)
 
         if dos is not None:
             try:
