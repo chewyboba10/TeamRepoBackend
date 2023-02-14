@@ -18,7 +18,7 @@ class Score(db.Model):
     _dos = db.Column(db.Date)
 
     # constructor of a User object, initializes the instance variables within object (self)
-    def __init__(self, username, score, dos=date.today()): # variables with self prefix become part of the object, 
+    def __init__(self, username="none", score='0', dos=date.today()): # variables with self prefix become part of the object, 
         self._username = username
         self.score = score
         self._dos = dos
@@ -106,6 +106,9 @@ class Score(db.Model):
 def initScores():
     with app.app_context():
         """Create database and tables"""
+        db.init_app(app)
+        db.create_all()
+        """Create database and tables"""
         db.create_all()
         """Tester data for table"""
         u1 = Score('AAA', '12', date(2023, 1, 22))
@@ -123,5 +126,5 @@ def initScores():
             except IntegrityError:
                 '''fails with bad or duplicate data'''
                 db.session.remove()
-                print(f"Records exist, duplicate email, or error: {user.username}")
+                print(f"Records exist, duplicate email, or error: {user.uid}")
         
