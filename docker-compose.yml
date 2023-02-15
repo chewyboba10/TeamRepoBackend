@@ -1,10 +1,10 @@
 version: '3'
 services:
         web:
-                image: jame_v1
+                image: jame_v2
                 build: .
                 ports:
-                        - "8093:8086"
+                        - "8095:8080"
                 volumes:
                         - persistent_volume:/app/volumes
                 restart: unless-stopped
@@ -14,7 +14,7 @@ volumes:
     driver_opts:
       o: bind
       type: none
-      device: /home/ubuntu/p3_reunion_flask_jame/volumes
+      device: /home/ubuntu/p3_jame/volumes
 
 
 
