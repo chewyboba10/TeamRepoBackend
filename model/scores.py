@@ -94,7 +94,7 @@ class Score(db.Model):
         return {
             "username": self.username,
             "score": self.score,
-            "dos": self.dos,
+            "dos": self.dos
         }
 
 

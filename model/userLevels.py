@@ -1,30 +1,28 @@
 """ database dependencies to support sqliteDB examples """
+from random import randrange
 from datetime import date
-import datetime
+import os, base64
 import json
 
 from __init__ import app, db
 from sqlalchemy.exc import IntegrityError
 
-class History(db.Model):
-    __tablename__ = 'histories'  # table name is plural, class name is singular
-    x = datetime.datetime.now()
+
+class userLevel(db.Model):
+    __tablename__ = 'userLevels'  # table name is plural, class name is singular
 
     # Define the User schema with "vars" from object
     id = db.Column(db.Integer, primary_key=True)
     _username = db.Column(db.String(255), unique=True, nullable=False)
-    _score = db.Column(db.String(255), unique=False, nullable=False)
-    _dos = db.Column(db.Date)
-    _tos = db.Column(db.String(255), unique=True)
+    _gameNumber = db.Column(db.String(255), unique=False, nullable=False)
+    _dolg = db.Column(db.Date)
 
     # constructor of a User object, initializes the instance variables within object (self)
-    def __init__(self, username, score, dos=date.today(), tos= x.strftime("%X")):
+    def __init__(self, username="none", gameNumber='0', dolg=date.today()): # variables with self prefix become part of the object, 
         self._username = username
-        self.score = score
-        self._dos = dos
-        self._tos = tos
+        self._gameNumber = gameNumber
+        self._dolg = dolg
     
-    # @property
     # a getter method, extracts email from object
     @property
     def username(self):
@@ -36,32 +34,24 @@ class History(db.Model):
         self._username = username
         
     @property
-    def score(self):
-        return self._score
+    def gameNumber(self):
+        return self._gameNumber
     
     # a setter function, allows name to be updated after initial object creation
-    @score.setter
-    def score(self, score):
-        self._score = score
+    @gameNumber.setter
+    def gameNumber(self, gameNumber):
+        self._gameNumber = gameNumber
     
     # dob property is returned as string, to avoid unfriendly outcomes
     @property
-    def dos(self):
-        dos_string = self._dos.strftime('%m-%d-%Y')
-        return dos_string
+    def dolg(self):
+        dolg_string = self._dolg.strftime('%m-%d-%Y')
+        return dolg_string
     
     # dob should be have verification for type date
-    @dos.setter
-    def dos(self, dos):
-        self._dos = dos
-    
-    @property
-    def tos(self):
-        return self._tos
-    
-    @tos.setter
-    def tos(self, tos):
-        self._tos = tos
+    @dolg.setter
+    def dolg(self, dolg):
+        self._dolg = dolg
     
     # output content using str(object) in human readable form, uses getter
     # output content using json dumps, this is ready for API response
@@ -79,6 +69,24 @@ class History(db.Model):
         except IntegrityError:
             db.session.remove()
             return None
+    
+    # CRUD update: updates user name, password, phone
+    # returns self
+    def update(self, username="", gameNumber="", dolg=""):
+        """only updates values with length"""
+        if len(username) > 0:
+            self.username = username
+        if len(gameNumber) > 0:
+            self.set_gameNumber(gameNumber)
+        db.session.commit()
+        return self
+
+    # CRUD delete: remove self
+    # None
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
+        return None
 
     # CRUD read converts self to dictionary
     # returns dictionary
@@ -86,26 +94,26 @@ class History(db.Model):
         return {
             "id": self.id,
             "username": self.username,
-            "score": self.score,
-            "dos": self.dos,
-            "tos": self.tos
+            "game number": self.gameNumber,
+            "dolg": self.dolg
         }
+
 
 
 """Database Creation and Testing """
 
 
 # Builds working data for testing
-def initHistories():
+def initUserLevels():
     with app.app_context():
         """Create database and tables"""
         db.create_all()
         """Tester data for table"""
-        u1 = History('ABC', '12', date(2023, 1, 22),'00:00:01')
-        u2 = History('TES', '20', date(2023, 1, 21), '12:12:12')
-        u3 = History('MKO', '10', date(2023, 1, 20), '13:13:14')
-        u4 = History('HGI', '15', date(2023, 1, 19), '14:14:16')
-        u5 = History('FDM', '100', date(2023, 1, 22), '20:20:12')
+        u1 = userLevel('AAA', '12', date(2023, 1, 22))
+        u2 = userLevel('AAB', '20', date(2023, 1, 21))
+        u3 = userLevel('AAC', '10', date(2023, 1, 20))
+        u4 = userLevel('AAD', '15', date(2023, 1, 19))
+        u5 = userLevel('AAE', '100', date(2023, 1, 22))
 
         users = [u1, u2, u3, u4, u5]
 
@@ -117,4 +125,4 @@ def initHistories():
                 '''fails with bad or duplicate data'''
                 db.session.remove()
                 print(f"Records exist, duplicate email, or error: {user.username}")
-            
+        
