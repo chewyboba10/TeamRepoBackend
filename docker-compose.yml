@@ -4,7 +4,7 @@ services:
                 image: jame_v2
                 build: .
                 ports:
-                        - "8095:8080"
+                        - "8095:8086"
                 volumes:
                         - persistent_volume:/app/volumes
                 restart: unless-stopped
