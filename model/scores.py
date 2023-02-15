@@ -106,8 +106,8 @@ class Score(db.Model):
 def initScores():
     with app.app_context():
         """Create database and tables"""
-        db.init_app(app)
-        db.create_all()
+        # db.init_app(app)
+        # db.create_all()
         """Create database and tables"""
         db.create_all()
         """Tester data for table"""
