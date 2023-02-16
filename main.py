@@ -2,7 +2,6 @@ import threading
 
 # import "packages" from flask
 from flask import render_template  # import render_template from "public" flask libraries
-from flask_cors import CORS
 
 # import "packages" from "this" project
 from __init__ import app  # Definitions initialization
@@ -20,8 +19,6 @@ from api.gameHistory import history_bp
 
 # setup App pages
 from projects.projects import app_projects # Blueprint directory import projects definition
-
-cors = CORS(app)
 
 # register URIs
 app.register_blueprint(joke_api) # register api routes
