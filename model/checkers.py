@@ -13,8 +13,8 @@ class Checkers(db.Model):
 
     # Define the User schema with "vars" from object
     id = db.Column(db.Integer, primary_key=True)
-    _uidB = db.Column(db.String(255), unique=True, nullable=False)
-    _uidR = db.Column(db.String(255), unique=True, nullable=False)
+    _uidB = db.Column(db.String(255), unique=False, nullable=False)
+    _uidR = db.Column(db.String(255), unique=False, nullable=False)
     _resultB = db.Column(db.String(255), unique=False, nullable=False)
     _resultR = db.Column(db.String(255), unique=False, nullable=False)
     _dos = db.Column(db.Date)
