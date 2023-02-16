@@ -12,12 +12,12 @@ class ScoreAPI:
             data = request.get_json()
 
             username = data.get('username')
-            if username is None or len(username) > 3:
+            if username is None or len(username) != 3:
                 return {'message': f'username is missing or longer than 3 characters'}, 210
                 
             # Change later to exclude negative scores
             score = data.get('score')
-            if score is None or len(score) < 0:
+            if score is None or len(score) <= 0:
                 return {'message': f'Score does not exist, is missing, or is invalid'}, 210 
                     
             dos = data.get('dos')
