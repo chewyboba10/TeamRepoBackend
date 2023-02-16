@@ -12,10 +12,10 @@ class History(db.Model):
 
     # Define the User schema with "vars" from object
     id = db.Column(db.Integer, primary_key=True)
-    _username = db.Column(db.String(255), unique=True, nullable=False)
+    _username = db.Column(db.String(255), unique=False, nullable=False)
     _score = db.Column(db.String(255), unique=False, nullable=False)
     _dos = db.Column(db.Date)
-    _tos = db.Column(db.String(255), unique=True)
+    _tos = db.Column(db.String(255), unique=False)
 
     # constructor of a User object, initializes the instance variables within object (self)
     def __init__(self, username, score, dos=date.today(), tos= x.strftime("%X")):
