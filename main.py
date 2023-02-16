@@ -21,6 +21,8 @@ from api.gameHistory import history_bp
 # setup App pages
 from projects.projects import app_projects # Blueprint directory import projects definition
 
+cors = CORS(app)
+
 # register URIs
 app.register_blueprint(joke_api) # register api routes
 app.register_blueprint(covid_api) # register api routes
