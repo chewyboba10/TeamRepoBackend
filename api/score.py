@@ -11,8 +11,8 @@ class ScoreAPI(Resource):
         data = request.get_json()
 
         username = data.get('username')
-        if username is None:
-            return {'message': f'username is missing'}, 210
+        if username is None or len(username) > 3:
+            return {'message': f'username is missing or longer than 3 characters'}, 210
             
         # Change later to exclude negative scores
         score = data.get('score')
@@ -32,7 +32,7 @@ class ScoreAPI(Resource):
         user = sob.create()
         if user:
             return jsonify(user.make_dict())
-        return {'message': f'Processed {username}, either a fromat error or Username {username} is duplicate'}, 210
+        return {'message': f'Processed {username}, either a format error or Username {username} is duplicate'}, 210
 
 class ScoreListAPI(Resource):
     def get(self):
