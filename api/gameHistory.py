@@ -43,7 +43,7 @@ class HistoryAPI_Create(Resource):
 
         if user:
             return jsonify(user.make_dict())
-        # return {'message': f'Processed {username}, either username is a format error or {username} is duplicate'}, 210
+        return {'message': f'Processed {username}, either username is a format error or {username} is duplicate'}, 210
 
 class HistoryListAPI(Resource):
     def get(self):
