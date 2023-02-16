@@ -3,44 +3,45 @@ from flask_restful import Api, Resource
 from datetime import datetime
 from model.scores import Score
 
-scores_bp = Blueprint("score", __name__, url_prefix='/api/score')
+scores_bp = Blueprint("scores_bp", __name__, url_prefix='/api/score')
 scores_api = Api(scores_bp)
 
-class ScoreAPI(Resource):
-    def post(self):
-        data = request.get_json()
+class ScoreAPI:
+    class ScoreCreate(Resource):    
+        def post(self):
+            data = request.get_json()
 
-        username = data.get('username')
-        if username is None or len(username) > 3:
-            return {'message': f'username is missing or longer than 3 characters'}, 210
-            
-        # Change later to exclude negative scores
-        score = data.get('score')
-        if score is None:
-            return {'message': f'Score does not exist or is missing'}, 210 
+            username = data.get('username')
+            if username is None or len(username) > 3:
+                return {'message': f'username is missing or longer than 3 characters'}, 210
                 
-        dos = data.get('dos')
+            # Change later to exclude negative scores
+            score = data.get('score')
+            if score is None or len(score) < 0:
+                return {'message': f'Score does not exist, is missing, or is invalid'}, 210 
+                    
+            dos = data.get('dos')
 
-        sob = Score(username=username, score=score)
+            sob = Score(username=username, score=score)
 
-        if dos is not None:
-            try:
-                sob.dos = datetime.strptime(dos, '%m-%d-%Y').date()
-            except:
-                return {'message': f'Date obtained score format error {dos}, must be mm-dd-yyyy'}, 210
-        
-        user = sob.create()
-        if user:
-            return jsonify(user.make_dict())
-        return {'message': f'Processed {username}, either a format error or Username {username} is duplicate'}, 210
+            if dos is not None:
+                try:
+                    sob.dos = datetime.strptime(dos, '%m-%d-%Y').date()
+                except:
+                    return {'message': f'Date obtained score format error {dos}, must be mm-dd-yyyy'}, 210
+            
+            user = sob.create()
+            if user:
+                return jsonify(user.make_dict())
+            return {'message': f'Processed {username}, either a format error or Username {username} is duplicate'}, 210
 
-class ScoreListAPI(Resource):
-    def get(self):
-        scores = Score.query.all()
-        json_ready = [user.make_dict() for user in scores]
-        return jsonify(json_ready)
+    class ScoreListAPI(Resource):
+        def get(self):
+            scores = Score.query.all()
+            json_ready = [user.make_dict() for user in scores]
+            return jsonify(json_ready)
 
-scores_api.add_resource(ScoreAPI, '/addScore')
-scores_api.add_resource(ScoreListAPI, '/scoresList')
+    scores_api.add_resource(ScoreCreate, '/addScore')
+    scores_api.add_resource(ScoreListAPI, '/scoresList')
 
 

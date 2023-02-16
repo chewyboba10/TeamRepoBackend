@@ -106,7 +106,6 @@ class Score(db.Model):
 def initScores():
     with app.app_context():
         """Create database and tables"""
-        # db.init_app(app)
         # db.create_all()
         """Create database and tables"""
         db.create_all()
@@ -126,5 +125,5 @@ def initScores():
             except IntegrityError:
                 '''fails with bad or duplicate data'''
                 db.session.remove()
-                print(f"Records exist, duplicate email, or error: {user.uid}")
+                print(f"Records exist, duplicate email, or error: {user.username}")
         
