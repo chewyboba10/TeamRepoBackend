@@ -10,6 +10,7 @@ from model.users import initUsers
 from model.scores import initScores
 from model.gameHistories import initHistories
 from model.checkers import initCheckers
+from model.pongScores import initPong
 
 # setup APIs
 from api.covid import covid_api # Blueprint import api definition
@@ -51,6 +52,7 @@ def activate_job():
     initScores()
     initHistories()
     initCheckers()
+    initPong()
 
 # this runs the application on the development server
 if __name__ == "__main__":
