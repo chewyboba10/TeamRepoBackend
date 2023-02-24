@@ -54,23 +54,7 @@ class Checkers(db.Model):
     @uidR.setter
     def uidR(self, uidR):
         self._uidR = uidR
-        
-    @property
-    def level1(self)
-        return self._level1
 
-    @level1.setter
-    def level1(self, level1)
-        self._level1 = level1
-
-    @property
-    def level2(self)
-        return self._level2
-
-    @level2.setter
-    def level2(self, level1)
-        self._level2 = level2
-        
     @property
     def resultR(self):
         return self._resultR
