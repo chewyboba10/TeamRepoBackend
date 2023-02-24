@@ -56,6 +56,22 @@ class Checkers(db.Model):
         self._uidR = uidR
         
     @property
+    def level1(self)
+        return self._level1
+
+    @level1.setter
+    def level1(self, level1)
+        self._level1 = level1
+
+    @property
+    def level2(self)
+        return self._level2
+
+    @level2.setter
+    def level2(self, level1)
+        self._level2 = level2
+        
+    @property
     def resultR(self):
         return self._resultR
     
@@ -100,6 +116,8 @@ class Checkers(db.Model):
             self.uidB = uidB
         if len(uidR) != 3:
             self.uidR = uidR
+        if len(resultR) > 0:
+            self.set_level += 1
         db.session.commit()
         return self
 

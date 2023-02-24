@@ -14,3 +14,9 @@
 # 4. After playing any game a certain amount of times, they achieve a ranking.
 # 5. Plan for ranking: 10 games=Bronze, 25 games=Silver, 60 games=Gold, 100 games=Platinum
 # How is this possible you may ask? Just abuse the update thing in CRUD, I'm pretty sure that's it. We have to try to find out if it works.
+from datetime import date
+import datetime
+import json
+
+from __init__ import app, db
+from sqlalchemy.exc import IntegrityError
