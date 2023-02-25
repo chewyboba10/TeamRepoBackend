@@ -17,15 +17,15 @@ class Checkers(db.Model):
     _uidR = db.Column(db.String(255), unique=False, nullable=False)
     _resultB = db.Column(db.String(255), unique=False, nullable=False)
     _resultR = db.Column(db.String(255), unique=False, nullable=False)
-    _dos = db.Column(db.Date)
+    _dogame = db.Column(db.Date)
 
     # constructor of a User object, initializes the instance variables within object (self)
-    def __init__(self, uidB="none", resultB="none", uidR="none", resultR="none", dos=date.today()): # variables with self prefix become part of the object, 
+    def __init__(self, uidB="none", resultB="none", uidR="none", resultR="none", dogame=date.today()): # variables with self prefix become part of the object, 
         self._uidB = uidB
         self.resultB = resultB
         self._uidR = uidR
         self._resultR = resultR
-        self._dos = dos
+        self._dogame = dogame
     
     # a getter method, extracts email from object
     @property
@@ -66,14 +66,14 @@ class Checkers(db.Model):
     
     # dob property is returned as string, to avoid unfriendly outcomes
     @property
-    def dos(self):
-        dos_string = self._dos.strftime('%m-%d-%Y')
-        return dos_string
+    def dogame(self):
+        dogame_string = self._dogame.strftime('%m-%d-%Y')
+        return dogame_string
     
     # dob should be have verification for type date
-    @dos.setter
-    def dos(self, dos):
-        self._dos = dos
+    @dogame.setter
+    def dogame(self, dogame):
+        self._dogame = dogame
     
     # output content using str(object) in human readable form, uses getter
     # output content using json dumps, this is ready for API response
@@ -94,7 +94,7 @@ class Checkers(db.Model):
     
     # CRUD update: updates user name, password, phone
     # returns self
-    def update(self, uidB="", uidR=""):
+    def update(self, uidB="", uidR="", resultR=""):
         """only updates values with length"""
         if len(uidB) != 3:
             self.uidB = uidB
@@ -120,7 +120,7 @@ class Checkers(db.Model):
             "resultB": self.resultB,
             "uidR": self.uidR,
             "resultR": self.resultR,
-            "dos": self.dos
+            "dogame": self.dogame
         }
 
 
