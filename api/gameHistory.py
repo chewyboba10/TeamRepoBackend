@@ -54,35 +54,28 @@ class HistoryListAPI(Resource):
 class HistoryUpdate(Resource):
     def put(self):
         data = request.get_json()
-
-        username = data.get('username')
-        if username is None or len(username) != 3:
-            return {'message': f'Username is missing, or is not 3 characters'}, 210
-        
-        # Change later to exclude negative scores
-        score = data.get('score')
-        if score is None:
-            return {'message': f'Score does not exist or is missing'}, 210 
-        
-        userPerson = History(username=username,
-                             score=score)
-
-        user = userPerson.update()
-
+        usernameData = data.get('username') # get the UID (Know what to reference)
+        scoreData = data.get('score') # get what needs to be updated
+        user = History.query.filter_by(_username = usernameData).first() # get the user (using the uid in this case)
         if user:
+            user.update(scoreData)
+            # return {'message':f"{usernameData} updated"}, 210
             return jsonify(user.make_dict())
-        return {'message': f'Processed {username}, either username is a format error or {username} is duplicate'}, 210
+        else:
+            return {'message': f'{usernameData} not found'}, 210
 
 class HistoryDelete(Resource):
-    def delete(self, username):
-        historyDeleting = History.query.get(username)
+    def delete(self):
+        data = request.get_json()
+        getID = data.get('id')
+        historyDeleting = History.query.get(getID)
         if historyDeleting:
             historyDeleting.delete()
-            return {'message': f'Username {username} profile deleted'}, 210
+            return {'message': f'Username {getID} profile deleted'}, 210
         else:
-            return {'message': f'Username {username} profile not found'}, 210
+            return {'message': f'Username {getID} profile not found'}, 210
         
 history_API.add_resource(HistoryAPI_Create, '/createGameHistory')
 history_API.add_resource(HistoryListAPI, '/gameHistoriesList')
 history_API.add_resource(HistoryUpdate, '/historyUpdate')
-history_API.add_resource(HistoryDelete, '/delete/<string:username>')
+history_API.add_resource(HistoryDelete, '/delete/<username>')
