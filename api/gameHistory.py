@@ -56,11 +56,11 @@ class HistoryUpdate(Resource):
         data = request.get_json()
         usernameData = data.get('username') # get the UID (Know what to reference)
         scoreData = data.get('score') # get what needs to be updated
-        user = History.query.filter_by(_username = usernameData).first() # get the user (using the uid in this case)
-        if user:
-            user.update(scoreData)
+        userUpdate = History.query.filter_by(_username = usernameData).first() # get the user (using the uid in this case)
+        if userUpdate:
+            userUpdate.update(score = scoreData)
             # return {'message':f"{usernameData} updated"}, 210
-            return jsonify(user.make_dict())
+            return jsonify(userUpdate.make_dict())
         else:
             return {'message': f'{usernameData} not found'}, 210
 
@@ -78,4 +78,4 @@ class HistoryDelete(Resource):
 history_API.add_resource(HistoryAPI_Create, '/createGameHistory')
 history_API.add_resource(HistoryListAPI, '/gameHistoriesList')
 history_API.add_resource(HistoryUpdate, '/historyUpdate')
-history_API.add_resource(HistoryDelete, '/delete/<username>')
+history_API.add_resource(HistoryDelete, '/delete')
