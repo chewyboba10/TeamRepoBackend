@@ -76,7 +76,7 @@ class Score(db.Model):
         """only updates values with length"""
         if len(username) != 3:
             self.username = username
-        if len(score) > 0:
+        if len(score) >= 0:
             self.set_score(score)
         db.session.commit()
         return self

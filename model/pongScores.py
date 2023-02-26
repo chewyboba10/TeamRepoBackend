@@ -1,4 +1,5 @@
 """ database dependencies to support sqliteDB examples """
+from random import randrange
 from datetime import date
 import os, base64
 import json
@@ -7,8 +8,8 @@ from __init__ import app, db
 from sqlalchemy.exc import IntegrityError
 
 
-class pongScore(db.Model):
-    __tablename__ = 'pongScores'  # table name is plural, class name is singular
+class Pong(db.Model):
+    __tablename__ = 'pongs'  # table name is plural, class name is singular
 
     # Define the User schema with "vars" from object
     id = db.Column(db.Integer, primary_key=True)
@@ -16,17 +17,18 @@ class pongScore(db.Model):
     _user2 = db.Column(db.String(255), unique=False, nullable=False)
     _score1 = db.Column(db.String(255), unique=False, nullable=False)
     _score2 = db.Column(db.String(255), unique=False, nullable=False)
-    _gameResult = db.Column(db.String(255), unique=False, nullable=False)
+    _result1 = db.Column(db.String(255), unique=False, nullable=False)
+    _result2 = db.Column(db.String(255), unique=False, nullable=False)
     _scoreDate = db.Column(db.Date)
-    _level = db.Column(db.Integer, unique=False, nullable=False)
 
     # constructor of a User object, initializes the instance variables within object (self)
-    def __init__(self, user1, user2, score1, score2, gameResult, scoreDate=date.today()): # variables with self prefix become part of the object, 
+    def __init__(self, user1="none", user2="none", score1='0', score2='0', result1="none", result2="none", scoreDate=date.today()): # variables with self prefix become part of the object, 
         self._user1 = user1
         self._user2 = user2
         self._score1 = score1
         self._score2 = score2
-        self._gameResult = gameResult
+        self._result1 = result1
+        self._result2 = result2
         self._scoreDate = scoreDate
     
     # a getter method, extracts email from object
@@ -67,19 +69,28 @@ class pongScore(db.Model):
         self._score2 = score2
 
     @property
-    def gameResult(self):
-        return self._gameResult
+    def result1(self):
+        return self._result1
     
     # a setter function, allows name to be updated after initial object creation
-    @gameResult.setter
-    def gameResult(self, gameResult):
-        self._gameResult = gameResult
+    @result1.setter
+    def result1(self, result1):
+        self._result1 = result1
+
+    @property
+    def result2(self):
+        return self._result2
+    
+    # a setter function, allows name to be updated after initial object creation
+    @result2.setter
+    def result2(self, result2):
+        self._result2 = result2
     
     # dob property is returned as string, to avoid unfriendly outcomes
     @property
     def scoreDate(self):
-        scoreDateString = self._scoreDate.strftime('%m-%d-%Y')
-        return scoreDateString
+        scoreDate_string = self._scoreDate.strftime('%m-%d-%Y')
+        return scoreDate_string
     
     # dob should be have verification for type date
     @scoreDate.setter
@@ -105,15 +116,12 @@ class pongScore(db.Model):
     
     # CRUD update: updates user name, password, phone
     # returns self
-    def update(self, user1="", user2="", gameResult=""):
+    def update(self, user1="", user2=""):
         """only updates values with length"""
         if len(user1) != 3:
             self.user1 = user1
         if len(user2) != 3:
             self.user2 = user2
-        if len(gameResult) > 0:
-            self.set_gameResult(gameResult)
-            self.set_level += 1
         db.session.commit()
         return self
 
@@ -132,7 +140,8 @@ class pongScore(db.Model):
             "user2": self.user2,
             "score1": self.score1,
             "score2": self.score2,
-            "gameResult": self.gameResult,
+            "result1": self.result1,
+            "result2": self.result2,
             "scoreDate": self.scoreDate
         }
 
@@ -147,11 +156,11 @@ def initPong():
         """Create database and tables"""
         db.create_all()
         """Tester data for table"""
-        u1 = pongScore('AAA', 'BBB', '1', '5', 'BBB wins', date(2023, 1, 22))
-        u2 = pongScore('AAB', 'ABC', '2', '5', 'ABC wins', date(2023, 1, 21))
-        u3 = pongScore('AAC', 'GHI', '5', '4', 'AAC wins', date(2023, 1, 20))
-        u4 = pongScore('AAD', 'FGH', '5', '1', 'AAD wins', date(2023, 1, 19))
-        u5 = pongScore('AAE', 'TYU', '3','5', 'TYU wins', date(2023, 1, 22))
+        u1 = Pong('AAA', 'BBB', '1', '5', 'Loss', 'Win', date(2023, 1, 22))
+        u2 = Pong('AAB', 'ABC', '2', '5', 'Loss', 'Win', date(2023, 1, 21))
+        u3 = Pong('AAC', 'GHI', '5', '4', 'Win', 'Loss', date(2023, 1, 20))
+        u4 = Pong('AAD', 'FGH', '5', '1', 'Win', 'Loss', date(2023, 1, 19))
+        u5 = Pong('AAE', 'TYU', '3','5', 'Loss', 'Win', date(2023, 1, 22))
 
         users = [u1, u2, u3, u4, u5]
 

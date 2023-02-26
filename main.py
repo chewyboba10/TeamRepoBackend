@@ -9,8 +9,8 @@ from model.jokes import initJokes
 from model.users import initUsers
 from model.scores import initScores
 from model.gameHistories import initHistories
-# from model.checkers import initCheckers
-# from model.pongScores import initPong
+#from model.checkers import initCheckers
+from model.pongScores import initPong
 
 # setup APIs
 from api.covid import covid_api # Blueprint import api definition
@@ -18,7 +18,8 @@ from api.joke import joke_api # Blueprint import api definition
 from api.user import user_api # Blueprint import api definition
 from api.score import scores_bp
 from api.gameHistory import history_bp
-# from api.checker import checkers_bp
+#from api.checker import checkers_bp
+from api.pongScore import pong_bp
 
 # setup App pages
 from projects.projects import app_projects # Blueprint directory import projects definition
@@ -29,7 +30,8 @@ app.register_blueprint(covid_api) # register api routes
 app.register_blueprint(user_api) # register api routes
 app.register_blueprint(scores_bp)
 app.register_blueprint(history_bp)
-# app.register_blueprint(checkers_bp)
+#app.register_blueprint(checkers_bp)
+app.register_blueprint(pong_bp)
 app.register_blueprint(app_projects) # register app pages
 
 @app.errorhandler(404)  # catch for URL not found
@@ -51,8 +53,8 @@ def activate_job():
     initUsers()
     initScores()
     initHistories()
-    # initCheckers()
-    # initPong()
+    #initCheckers()
+    initPong()
 
 # this runs the application on the development server
 if __name__ == "__main__":

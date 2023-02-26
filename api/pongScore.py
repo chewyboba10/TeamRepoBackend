@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify
 from flask_restful import Api, Resource 
 from datetime import datetime
-from model.pongScores import pongScore
+from model.pongScores import Pong
 
 pong_bp = Blueprint("pong_bp", __name__, url_prefix='/api/pong')
 pongs_api = Api(pong_bp)
@@ -28,13 +28,17 @@ class PongAPI:
             if score2 is None or len(score2) <= 0:
                 return {'message': f'Score 2 does not exist, is missing, or is invalid'}, 210 
                 
-            gameResult = data.get('gameResult')
-            if gameResult is None:
+            result1 = data.get('result1')
+            if result1 is None:
+                return {'message': f'Game result does not exist or is missing'}, 210 
+            
+            result2 = data.get('result1')
+            if result2 is None:
                 return {'message': f'Game result does not exist or is missing'}, 210 
             
             scoreDate = data.get('scoreDate')
 
-            pongProfile = pongScore(user1=user1, user2=user2, score1=score1, score2=score2, gameResult=gameResult)
+            pongProfile = Pong(user1=user1, user2=user2, score1=score1, score2=score2, result1=result1, result2=result2)
 
             if scoreDate is not None:
                 try:
@@ -49,11 +53,11 @@ class PongAPI:
 
     class PongListAPI(Resource):
         def get(self):
-            scorePong = pongScore.query.all()
-            json_ready = [user.make_dict() for user in scorePong]
+            pongScores = Pong.query.all()
+            json_ready = [user.make_dict() for user in pongScores]
             return jsonify(json_ready)
 
     pongs_api.add_resource(PongCreate, '/addPongScore')
-    pongs_api.add_resource(PongListAPI, '/PongsScoresList')
+    pongs_api.add_resource(PongListAPI, '/pongList')
 
 
