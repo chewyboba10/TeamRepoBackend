@@ -90,7 +90,23 @@ class History(db.Model):
             "dos": self.dos,
             "tos": self.tos
         }
+    # CRUD update: updates user name, password, phone
+    # returns self
+    def update(self, username="", score=""):
+        """only updates values with length"""
+        if len(username) == 3:
+            self.username = username
+        if len(score) > 0:
+            self.score = score
+        db.session.commit()
+        return self
 
+    # CRUD delete: remove self
+    # None
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
+        return None
 
 """Database Creation and Testing """
 
