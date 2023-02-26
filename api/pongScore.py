@@ -45,7 +45,7 @@ class PongAPI:
             user = pongProfile.create()
             if user:
                 return jsonify(user.make_dict())
-            return {'message': f'Processed {user1} and {user2}, either a format error or Usernames {user1} or {user2} is duplicate'}, 210
+            return {'message': f'Processed {user1} and/or {user2}, either a format error or Usernames {user1} and/or {user2} is duplicate'}, 210
 
     class PongListAPI(Resource):
         def get(self):

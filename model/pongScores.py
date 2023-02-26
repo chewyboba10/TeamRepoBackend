@@ -18,17 +18,16 @@ class pongScore(db.Model):
     _score2 = db.Column(db.String(255), unique=False, nullable=False)
     _gameResult = db.Column(db.String(255), unique=False, nullable=False)
     _scoreDate = db.Column(db.Date)
-    _level = db.Column(db.Integer, primary_key=True)
+    _level = db.Column(db.Integer, unique=False, nullable=False)
 
     # constructor of a User object, initializes the instance variables within object (self)
-    def __init__(self, user1, user2, score1, score2, gameResult, scoreDate=date.today(), level): # variables with self prefix become part of the object, 
+    def __init__(self, user1, user2, score1, score2, gameResult, scoreDate=date.today()): # variables with self prefix become part of the object, 
         self._user1 = user1
         self._user2 = user2
         self._score1 = score1
         self._score2 = score2
         self._gameResult = gameResult
         self._scoreDate = scoreDate
-        self._level = level
     
     # a getter method, extracts email from object
     @property
@@ -75,14 +74,6 @@ class pongScore(db.Model):
     @gameResult.setter
     def gameResult(self, gameResult):
         self._gameResult = gameResult
-
-    @property
-    def level(self)
-        return self._level
-
-    @level.setter
-    def level(self, level)
-        self._level = level
     
     # dob property is returned as string, to avoid unfriendly outcomes
     @property
@@ -143,7 +134,6 @@ class pongScore(db.Model):
             "score2": self.score2,
             "gameResult": self.gameResult,
             "scoreDate": self.scoreDate
-            "level": self.level
         }
 
 
@@ -157,11 +147,11 @@ def initPong():
         """Create database and tables"""
         db.create_all()
         """Tester data for table"""
-        u1 = pongScore('AAA', 'BBB', '1', '5', 'BBB wins', date(2023, 1, 22), '10')
-        u2 = pongScore('AAB', 'ABC', '2', '5', 'ABC wins', date(2023, 1, 21), '11')
-        u3 = pongScore('AAC', 'GHI', '5', '4', 'AAC wins', date(2023, 1, 20), '5')
-        u4 = pongScore('AAD', 'FGH', '5', '1', 'AAD wins', date(2023, 1, 19), '7')
-        u5 = pongScore('AAE', 'TYU', '3','5', 'TYU wins', date(2023, 1, 22), '12')
+        u1 = pongScore('AAA', 'BBB', '1', '5', 'BBB wins', date(2023, 1, 22))
+        u2 = pongScore('AAB', 'ABC', '2', '5', 'ABC wins', date(2023, 1, 21))
+        u3 = pongScore('AAC', 'GHI', '5', '4', 'AAC wins', date(2023, 1, 20))
+        u4 = pongScore('AAD', 'FGH', '5', '1', 'AAD wins', date(2023, 1, 19))
+        u5 = pongScore('AAE', 'TYU', '3','5', 'TYU wins', date(2023, 1, 22))
 
         users = [u1, u2, u3, u4, u5]
 
@@ -172,5 +162,5 @@ def initPong():
             except IntegrityError:
                 '''fails with bad or duplicate data'''
                 db.session.remove()
-                print(f"Records exist, duplicate email, or error: {user.user1} and {user.user2}")
+                print(f"Records exist, duplicate email, or error in {user.user1} and/or {user.user2}")
         
