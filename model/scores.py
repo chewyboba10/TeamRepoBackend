@@ -1,6 +1,7 @@
 """ database dependencies to support sqliteDB examples """
 from random import randrange
 from datetime import date
+import datetime
 import os, base64
 import json
 
@@ -52,7 +53,7 @@ class Score(db.Model):
     @dos.setter
     def dos(self, dos):
         self._dos = dos
-    
+
     # output content using str(object) in human readable form, uses getter
     # output content using json dumps, this is ready for API response
     def __str__(self):
@@ -74,10 +75,10 @@ class Score(db.Model):
     # returns self
     def update(self, username="", score=""):
         """only updates values with length"""
-        if len(username) != 3:
+        if len(username) == 3:
             self.username = username
-        if len(score) >= 0:
-            self.set_score(score)
+        if len(score) > 0:
+            self.score = score
         db.session.commit()
         return self
 
@@ -92,6 +93,7 @@ class Score(db.Model):
     # returns dictionary
     def make_dict(self):
         return {
+            "id": self.id,
             "username": self.username,
             "score": self.score,
             "dos": self.dos
@@ -110,11 +112,11 @@ def initScores():
         """Create database and tables"""
         db.create_all()
         """Tester data for table"""
-        u1 = Score('AAA', '12', date(2023, 1, 22))
-        u2 = Score('AAB', '20', date(2023, 1, 21))
-        u3 = Score('AAC', '10', date(2023, 1, 20))
-        u4 = Score('AAD', '15', date(2023, 1, 19))
-        u5 = Score('AAE', '100', date(2023, 1, 22))
+        u1 = Score('AAA', '2', date(2023, 1, 22))
+        u2 = Score('AAB', '2', date(2023, 1, 21))
+        u3 = Score('AAC', '1', date(2023, 1, 20))
+        u4 = Score('AAD', '1', date(2023, 1, 19))
+        u5 = Score('AAE', '1', date(2023, 1, 22))
 
         users = [u1, u2, u3, u4, u5]
 

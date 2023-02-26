@@ -78,4 +78,4 @@ class HistoryDelete(Resource):
 history_API.add_resource(HistoryAPI_Create, '/createGameHistory')
 history_API.add_resource(HistoryListAPI, '/gameHistoriesList')
 history_API.add_resource(HistoryUpdate, '/historyUpdate')
-history_API.add_resource(HistoryDelete, '/delete')
+history_API.add_resource(HistoryDelete, '/deleteHistory')
