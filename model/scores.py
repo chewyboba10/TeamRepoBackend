@@ -11,21 +11,18 @@ from sqlalchemy.exc import IntegrityError
 
 class Score(db.Model):
     __tablename__ = 'scores'  # table name is plural, class name is singular
-    timeRecord = datetime.datetime.now()
 
     # Define the User schema with "vars" from object
     id = db.Column(db.Integer, primary_key=True)
     _username = db.Column(db.String(255), unique=False, nullable=False)
     _score = db.Column(db.String(255), unique=False, nullable=False)
     _dos = db.Column(db.Date)
-    _tos = db.Column(db.String(255), unique=False)
 
     # constructor of a User object, initializes the instance variables within object (self)
-    def __init__(self, username="none", score='0', dos=date.today(), tos=timeRecord.strftime("%X")): # variables with self prefix become part of the object, 
+    def __init__(self, username="none", score='0', dos=date.today()): # variables with self prefix become part of the object, 
         self._username = username
         self.score = score
         self._dos = dos
-        self._tos = tos
     
     # a getter method, extracts email from object
     @property
@@ -56,14 +53,6 @@ class Score(db.Model):
     @dos.setter
     def dos(self, dos):
         self._dos = dos
-    
-    @property
-    def tos(self):
-        return self._tos
-    
-    @tos.setter
-    def tos(self, tos):
-        self._tos = tos
 
     # output content using str(object) in human readable form, uses getter
     # output content using json dumps, this is ready for API response
@@ -107,8 +96,7 @@ class Score(db.Model):
             "id": self.id,
             "username": self.username,
             "score": self.score,
-            "dos": self.dos,
-            "tos": self.tos
+            "dos": self.dos
         }
 
 
@@ -124,11 +112,11 @@ def initScores():
         """Create database and tables"""
         db.create_all()
         """Tester data for table"""
-        u1 = Score('AAA', '12', date(2023, 1, 22), '11:00:11')
-        u2 = Score('AAB', '20', date(2023, 1, 21), '12:12:13')
-        u3 = Score('AAC', '10', date(2023, 1, 20), '20:20:22')
-        u4 = Score('AAD', '15', date(2023, 1, 19), '02:20:02')
-        u5 = Score('AAE', '100', date(2023, 1, 22), '09:08:09')
+        u1 = Score('AAA', '2', date(2023, 1, 22))
+        u2 = Score('AAB', '2', date(2023, 1, 21))
+        u3 = Score('AAC', '1', date(2023, 1, 20))
+        u4 = Score('AAD', '1', date(2023, 1, 19))
+        u5 = Score('AAE', '1', date(2023, 1, 22))
 
         users = [u1, u2, u3, u4, u5]
 
