@@ -41,7 +41,32 @@ class ScoreAPI:
             json_ready = [user.make_dict() for user in scores]
             return jsonify(json_ready)
 
+    class ScoreUpdate(Resource):
+        def put(self):
+            data = request.get_json()
+            usernameData = data.get('username') # get the UID (Know what to reference)
+            scoreData = data.get('score') # get what needs to be updated
+            userUpdating = Score.query.filter_by(_username = usernameData).first() # get the user (using the uid in this case)
+            if userUpdating:
+                userUpdating.update(score = scoreData)
+                # return {'message':f"{usernameData} updated"}, 210
+                return jsonify(userUpdating.make_dict())
+            else:
+                return {'message': f'{usernameData} not found'}, 210
+
+    class ScoreDelete(Resource):
+        def delete(self):
+            data = request.get_json()
+            getID = data.get('id')
+            historyDeleting = Score.query.get(getID)
+            if historyDeleting:
+                historyDeleting.delete()
+                return {'message': f'Profile #{getID} deleted'}, 210
+            else:
+                return {'message': f'Profile #{getID} not found'}, 210
+            
     scores_api.add_resource(ScoreCreate, '/addScore')
     scores_api.add_resource(ScoreListAPI, '/scoresList')
-
+    scores_api.add_resource(ScoreUpdate, '/updateScore')
+    scores_api.add_resource(ScoreDelete, '/deleteScore')
 
