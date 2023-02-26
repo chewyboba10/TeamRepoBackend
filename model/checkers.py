@@ -100,8 +100,6 @@ class Checkers(db.Model):
             self.uidB = uidB
         if len(uidR) != 3:
             self.uidR = uidR
-        if len(resultR) > 0:
-            self.set_level += 1
         db.session.commit()
         return self
 
