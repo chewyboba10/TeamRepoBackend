@@ -14,8 +14,8 @@ class Checkers(db.Model):
     # Define the User schema with "vars" from object
     id = db.Column(db.Integer, primary_key=True)
     _uidB = db.Column(db.String(255), unique=False, nullable=False)
-    _uidR = db.Column(db.String(255), unique=False, nullable=False)
     _resultB = db.Column(db.String(255), unique=False, nullable=False)
+    _uidR = db.Column(db.String(255), unique=False, nullable=False)
     _resultR = db.Column(db.String(255), unique=False, nullable=False)
     _dogame = db.Column(db.Date)
 
@@ -94,14 +94,12 @@ class Checkers(db.Model):
     
     # CRUD update: updates user name, password, phone
     # returns self
-    def update(self, uidB="", uidR="", resultR=""):
+    def update(self, uidB="", uidR=""):
         """only updates values with length"""
         if len(uidB) != 3:
             self.uidB = uidB
         if len(uidR) != 3:
             self.uidR = uidR
-        if len(resultR) > 0:
-            self.set_level += 1
         db.session.commit()
         return self
 

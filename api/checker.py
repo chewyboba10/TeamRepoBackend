@@ -17,7 +17,7 @@ class CheckersAPI:
                 
             # Change later to exclude negative scores
             resultB = data.get('resultB')
-            if resultB is None or not resultB in ['Win', 'Loss']:
+            if resultB is None:
                 return {'message': f'Result does not exist, is missing, or is invalid'}, 210
             
             uidR = data.get('uidR')
@@ -26,21 +26,21 @@ class CheckersAPI:
                 
             # Change later to exclude negative scores
             resultR = data.get('resultR')
-            if resultR is None or not resultR in ['Win', 'Loss']:
+            if resultR is None:
                 return {'message': f'Result does not exist, is missing, or is invalid'}, 210
 
              
-            dos = data.get('dos')
+            dogame = data.get('dogame')
 
-            cob = Checkers(uidB=uidB, resultB=resultB, uidR=uidR, resultR=resultR)
+            checkerProfile = Checkers(uidB=uidB, resultB=resultB, uidR=uidR, resultR=resultR)
 
-            if dos is not None:
+            if dogame is not None:
                 try:
-                    cob.dos = datetime.strptime(dos, '%m-%d-%Y').date()
+                    checkerProfile.dogame = datetime.strptime(dogame, '%m-%d-%Y').date()
                 except:
-                    return {'message': f'Date obtained score format error {dos}, must be mm-dd-yyyy'}, 210
+                    return {'message': f'Date obtained score format error {dogame}, must be mm-dd-yyyy'}, 210
             
-            user = cob.create()
+            user = checkerProfile.create()
             if user:
                 return jsonify(user.make_dict())
             return {'message': f'Processed {uidB} or {uidR}, either a format error or Usernames {uidB} or {uidR} is duplicate'}, 210
