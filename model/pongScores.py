@@ -86,13 +86,13 @@ class Pong(db.Model):
     def result2(self, result2):
         self._result2 = result2
     
-    # dob property is returned as string, to avoid unfriendly outcomes
+    # scoreDate property is returned as string, to avoid unfriendly outcomes
     @property
     def scoreDate(self):
         scoreDate_string = self._scoreDate.strftime('%m-%d-%Y')
         return scoreDate_string
     
-    # dob should be have verification for type date
+    # scoreDate should be have verification for type date
     @scoreDate.setter
     def scoreDate(self, scoreDate):
         self._scoreDate = scoreDate

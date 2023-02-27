@@ -56,6 +56,30 @@ class PongAPI:
             pongScores = Pong.query.all()
             json_ready = [user.make_dict() for user in pongScores]
             return jsonify(json_ready)
+        
+    class PongUpdate(Resource):
+        def put(self):
+            data = request.get_json()
+            usernameData = data.get('username') # get the UID (Know what to reference)
+            scoreData = data.get('score') # get what needs to be updated
+            pongGameUpdate = Pong.query.filter_by(_username = usernameData).first() # get the user (using the uid in this case)
+            if pongGameUpdate:
+                pongGameUpdate.update(score = scoreData)
+                # return {'message':f"{usernameData} updated"}, 210
+                return jsonify(pongGameUpdate.make_dict())
+            else:
+                return {'message': f'{usernameData} not found'}, 210
+
+    class PongDelete(Resource):
+        def delete(self):
+            data = request.get_json()
+            getID = data.get('id')
+            pongGameDeleting = Pong.query.get(getID)
+            if pongGameDeleting:
+                pongGameDeleting.delete()
+                return {'message': f'Username {getID} profile deleted'}, 210
+            else:
+                return {'message': f'Username {getID} profile not found'}, 210
 
     pongs_api.add_resource(PongCreate, '/addPongScore')
     pongs_api.add_resource(PongListAPI, '/pongList')
