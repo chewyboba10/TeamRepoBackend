@@ -32,7 +32,7 @@ class PongAPI:
             if result1 is None:
                 return {'message': f'Game result does not exist or is missing'}, 210 
             
-            result2 = data.get('result1')
+            result2 = data.get('result2')
             if result2 is None:
                 return {'message': f'Game result does not exist or is missing'}, 210 
             
