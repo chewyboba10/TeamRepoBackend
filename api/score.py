@@ -25,7 +25,7 @@ class ScoreAPI:
             # Gets the score, checks if the score has more than 0 digits. If there is no digits, POST is terminated
             score = data.get('score')
             if score is None or len(score) <= 0:
-                return {'message': f'Score does not exist, is missing, or is invalid'}, 210 
+                return {'message': f'Score does not exist, is missing, or is unrealistic'}, 210 
             
             # Gets the date of score
             dos = data.get('dos')
@@ -38,7 +38,7 @@ class ScoreAPI:
                 try:
                     sob.dos = datetime.strptime(dos, '%m-%d-%Y').date()
                 except:
-                    return {'message': f'Date obtained score format error {dos}, must be mm-dd-yyyy'}, 210
+                    return {'message': f'Date obtained has a format error {dos}, must be mm-dd-yyyy'}, 210
             
             # CREATE operation: creates user
             user = sob.create()
