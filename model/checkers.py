@@ -80,7 +80,7 @@ class Checkers(db.Model):
     def __str__(self):
         return json.dumps(self.make_dict())
 
-    # CRUD create/add a new record to the table
+    # CRUD CREATE/add a new record to the table
     # returns self or None on error
     def create(self):
         try:
@@ -92,7 +92,7 @@ class Checkers(db.Model):
             db.session.remove()
             return None
     
-    # CRUD update: updates user name, password, phone
+    # CRUD UPDATE: updates user name, password, phone
     # returns self
     def update(self, uidB="", uidR=""):
         """only updates values with length"""
@@ -103,14 +103,14 @@ class Checkers(db.Model):
         db.session.commit()
         return self
 
-    # CRUD delete: remove self
+    # CRUD DELETE: remove self
     # None
     def delete(self):
         db.session.delete(self)
         db.session.commit()
         return None
 
-    # CRUD read converts self to dictionary
+    # CRUD READ converts self to dictionary
     # returns dictionary
     def make_dict(self):
         return {
@@ -135,12 +135,13 @@ def initCheckers():
         db.create_all()
         """Tester data for table"""
         u1 = Checkers('AAA', 'Win', 'AAB', 'Loss', date(2023, 2, 16))
-        u2 = Checkers('BBB', 'Win', 'BBC', 'Loss', date(2023, 2, 1))
+        u2 = Checkers('BBB', 'Win', 'BBC', 'Loss', date(2023, 2, 12))
         u3 = Checkers('CCC', 'Loss', 'CCD', 'Win', date(2023, 2, 10))
         u4 = Checkers('DDD', 'Win', 'DDE', 'Loss', date(2023, 2, 14))
         u5 = Checkers('EEE', 'Loss', 'EEF', 'Win', date(2023, 2, 17))
+        u6 = Checkers('FFF', 'Loss', 'FFG', 'Win', date(2023, 2, 11))
 
-        users = [u1, u2, u3, u4, u5]
+        users = [u1, u2, u3, u4, u5, u6]
 
         """Builds sample user/note(s) data"""
         for user in users:
