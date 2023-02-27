@@ -135,12 +135,13 @@ def initCheckers():
         db.create_all()
         """Tester data for table"""
         u1 = Checkers('AAA', 'Win', 'AAB', 'Loss', date(2023, 2, 16))
-        u2 = Checkers('BBB', 'Win', 'BBC', 'Loss', date(2023, 2, 1))
+        u2 = Checkers('BBB', 'Win', 'BBC', 'Loss', date(2023, 2, 12))
         u3 = Checkers('CCC', 'Loss', 'CCD', 'Win', date(2023, 2, 10))
         u4 = Checkers('DDD', 'Win', 'DDE', 'Loss', date(2023, 2, 14))
         u5 = Checkers('EEE', 'Loss', 'EEF', 'Win', date(2023, 2, 17))
+        u6 = Checkers('FFF', 'Loss', 'FFG', 'Win', date(2023, 2, 11))
 
-        users = [u1, u2, u3, u4, u5]
+        users = [u1, u2, u3, u4, u5, u6]
 
         """Builds sample user/note(s) data"""
         for user in users:
