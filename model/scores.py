@@ -8,71 +8,71 @@ import json
 from __init__ import app, db
 from sqlalchemy.exc import IntegrityError
 
-
+# Create class Score to add a scores table to database
 class Score(db.Model):
-    __tablename__ = 'scores'  # table name is plural, class name is singular
+    # Table name
+    __tablename__ = 'scores'
 
-    # Define the User schema with "vars" from object
+    # Define the columns for the table
     id = db.Column(db.Integer, primary_key=True)
     _username = db.Column(db.String(255), unique=False, nullable=False)
     _score = db.Column(db.String(255), unique=False, nullable=False)
     _dos = db.Column(db.Date)
 
-    # constructor of a User object, initializes the instance variables within object (self)
-    def __init__(self, username="none", score='0', dos=date.today()): # variables with self prefix become part of the object, 
+    # Construct the profile for Score
+    def __init__(self, username="none", score='0', dos=date.today()): # variables that record the username, score, and date of score(dos)
         self._username = username
         self.score = score
         self._dos = dos
     
-    # a getter method, extracts email from object
+    # Getter method
     @property
     def username(self):
         return self._username
     
-    # a setter function, allows name to be updated after initial object creation
+    # Setter function
     @username.setter
     def username(self, username):
         self._username = username
-        
+    
+    # Getter method
     @property
     def score(self):
         return self._score
     
-    # a setter function, allows name to be updated after initial object creation
+    # Setter function
     @score.setter
     def score(self, score):
         self._score = score
     
-    # dob property is returned as string, to avoid unfriendly outcomes
+    # Convert dos to a string
     @property
     def dos(self):
         dos_string = self._dos.strftime('%m-%d-%Y')
         return dos_string
     
-    # dob should be have verification for type date
+    # Setter function
     @dos.setter
     def dos(self, dos):
         self._dos = dos
 
-    # output content using str(object) in human readable form, uses getter
-    # output content using json dumps, this is ready for API response
+    # Output content using json dumps
     def __str__(self):
         return json.dumps(self.make_dict())
 
-    # CRUD create/add a new record to the table
-    # returns self or None on error
+    # CRUD operations: create, read, update, delete
+    # CREATE: returns self and returns None if there is error
     def create(self):
         try:
-            # creates a person object from User(db.Model) class, passes initializers
-            db.session.add(self)  # add prepares to persist person object to Users table
+            # creates a user object from Score(db.Model) class
+            db.session.add(self)  # add persists user object onto table
             db.session.commit()  # SqlAlchemy "unit of work pattern" requires a manual commit
             return self
         except IntegrityError:
             db.session.remove()
             return None
     
-    # CRUD update: updates user name, password, phone
-    # returns self
+    # UPDATE: updates username and score
     def update(self, username="", score=""):
         """only updates values with length"""
         if len(username) == 3:
@@ -82,15 +82,14 @@ class Score(db.Model):
         db.session.commit()
         return self
 
-    # CRUD delete: remove self
-    # None
+    # DELETE: removes a user
     def delete(self):
         db.session.delete(self)
         db.session.commit()
         return None
 
-    # CRUD read converts self to dictionary
-    # returns dictionary
+    # READ: converts self to dictionary
+    # returns a dictionary
     def make_dict(self):
         return {
             "id": self.id,
@@ -107,8 +106,6 @@ class Score(db.Model):
 # Builds working data for testing
 def initScores():
     with app.app_context():
-        """Create database and tables"""
-        # db.create_all()
         """Create database and tables"""
         db.create_all()
         """Tester data for table"""
