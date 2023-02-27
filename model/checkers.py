@@ -80,7 +80,7 @@ class Checkers(db.Model):
     def __str__(self):
         return json.dumps(self.make_dict())
 
-    # CRUD create/add a new record to the table
+    # CRUD CREATE/add a new record to the table
     # returns self or None on error
     def create(self):
         try:
@@ -92,7 +92,7 @@ class Checkers(db.Model):
             db.session.remove()
             return None
     
-    # CRUD update: updates user name, password, phone
+    # CRUD UPDATE: updates user name, password, phone
     # returns self
     def update(self, uidB="", uidR=""):
         """only updates values with length"""
@@ -103,14 +103,14 @@ class Checkers(db.Model):
         db.session.commit()
         return self
 
-    # CRUD delete: remove self
+    # CRUD DELETE: remove self
     # None
     def delete(self):
         db.session.delete(self)
         db.session.commit()
         return None
 
-    # CRUD read converts self to dictionary
+    # CRUD READ converts self to dictionary
     # returns dictionary
     def make_dict(self):
         return {
