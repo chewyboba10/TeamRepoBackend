@@ -7,31 +7,30 @@ from sqlalchemy.exc import IntegrityError
 
 class Rating(db.Model):
     __tablename__ = 'ratings'
-    x = # datetime.datetime.now()
 
     id = db.Column(db.Integer, primary_key = True)
     _username = db.Column(db.String(255), unique=False, nullable=False)
     _rating = db.Column(db.String(255), unique=False, nullable=False)
 
 
-    def __init__(self, username, rating)
+    def __init__(self, username="none", rating="none"):
         self._username = username
         self._rating = rating
 
     @property 
     def username(self):
-        return username
+        return self._username
 
     @username.setter
     def username(self, username):
         self._username = username 
 
     @property
-    def rating(self)
-        return rating
+    def rating(self):
+        return self._rating
 
     @rating.setter
-    def rating(self)
+    def rating(self, rating):
         self._rating = rating
 
     def __str__(self):
@@ -68,7 +67,7 @@ class Rating(db.Model):
         return None
 
 def initRatings():
-    with app.app_context()
+    with app.app_context():
         db.create_all()
 
         u1 = Rating('ABC', '1')
