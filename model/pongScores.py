@@ -145,6 +145,7 @@ class Pong(db.Model):
     # returns dictionary
     def make_dict(self):
         return {
+            "id": self.id,
             "user1": self.user1,
             "user2": self.user2,
             "score1": self.score1,
