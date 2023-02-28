@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
 from flask_restful import Api, Resource 
-from model.ratings import rating
+from model.ratings import Rating
 
 rating_bp = Blueprint("rating_api", __name__, url_prefix='/api/rating')
 rating_API = Api(rating_bp)
@@ -56,5 +56,5 @@ class RatingDelete(Resource):
         
 rating_API.add_resource(RatingAPI_Create, '/createRating')
 rating_API.add_resource(RatingListAPI, '/RatingList')
-rating_API.add_resource(RatingUpdate, '/RatingUpdate')
+rating_API.add_resource(RatingsUpdate, '/RatingUpdate')
 rating_API.add_resource(RatingDelete, '/deleteRating')
