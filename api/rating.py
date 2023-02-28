@@ -57,7 +57,7 @@ class RatingsAPI:
                 return {'message': f'Username {getID} profile not found'}, 210
         
 
-rating_api.add_resource(RatingsAPI_Create, '/createRating')
-rating_api.add_resource(RatingsListAPI, '/RatingList')
-rating_api.add_resource(RatingsUpdate, '/RatingUpdate')
-rating_api.add_resource(RatingsDelete, '/deleteRating')
+    rating_api.add_resource(RatingsAPI_Create, '/createRating')
+    rating_api.add_resource(RatingsListAPI, '/RatingList')
+    rating_api.add_resource(RatingsUpdate, '/RatingUpdate')
+    rating_api.add_resource(RatingsDelete, '/deleteRating')
