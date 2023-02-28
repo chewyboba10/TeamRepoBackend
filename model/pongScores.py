@@ -85,13 +85,13 @@ class Pong(db.Model):
     def result2(self, result2):
         self._result2 = result2
     
-    # scoreDate property is returned as string
+    # gameDatetime property is returned as string
     @property
     def gameDatetime(self):
         gameDatetime_string = self._gameDatetime.strftime('%m-%d-%Y %H:%M:%S')
         return gameDatetime_string
     
-    # scoreDate should be have verification for type date
+    # gameDatetime should be have verification for type date
     @gameDatetime.setter
     def gameDatetime(self, gameDatetime):
         self._gameDatetime = gameDatetime
@@ -151,7 +151,7 @@ class Pong(db.Model):
             "score2": self.score2,
             "result1": self.result1,
             "result2": self.result2,
-            "scoreDate": self.gameDatetime
+            "gameDatetime": self.gameDatetime
         }
 
 
