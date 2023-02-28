@@ -14,7 +14,7 @@ class Rating(db.Model):
     _comment = db.Column(db.String(255), unique=False, nullable=False)
 
 
-    def __init__(self, username="none", rating="none"):
+    def __init__(self, username="none", rating="none", comment="none"):
         self._username = username
         self._rating = rating
         self._comment = comment
@@ -36,8 +36,8 @@ class Rating(db.Model):
         self._rating = rating
 
     @property
-    def rating(self):
-        return self._rating
+    def comment(self):
+        return self._comment
 
     @comment.setter
     def comment(self, comment):
@@ -59,8 +59,8 @@ class Rating(db.Model):
         return {
             "id": self.id,
             "username": self.username,
-            "rating": self.rating
-            "comment": self.comment
+            "rating": self.rating,
+            "comments": self.comment
         }
     
     def update(self, username="", rating=""):
