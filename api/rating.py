@@ -38,6 +38,7 @@ class RatingsAPI:
             data = request.get_json()
             usernameData = data.get('username')
             ratingData = data.get('rating')
+            commentData = data.get('comment')
             userUpdate = Rating.query.filter_by(_username = usernameData).first() 
             if userUpdate:
                 userUpdate.update(rating = ratingData)

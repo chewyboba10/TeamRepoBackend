@@ -11,11 +11,13 @@ class Rating(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     _username = db.Column(db.String(255), unique=False, nullable=False)
     _rating = db.Column(db.String(255), unique=False, nullable=False)
+    _comment = db.Column(db.String(255), unique=False, nullable=False)
 
 
     def __init__(self, username="none", rating="none"):
         self._username = username
         self._rating = rating
+        self._comment = comment
 
     @property 
     def username(self):
@@ -32,6 +34,14 @@ class Rating(db.Model):
     @rating.setter
     def rating(self, rating):
         self._rating = rating
+
+    @property
+    def rating(self):
+        return self._rating
+
+    @comment.setter
+    def comment(self, comment):
+        self._comment = comment
 
     def __str__(self):
         return json.dumps(self.make_dict())
@@ -50,6 +60,7 @@ class Rating(db.Model):
             "id": self.id,
             "username": self.username,
             "rating": self.rating
+            "comment": self.comment
         }
     
     def update(self, username="", rating=""):
@@ -58,6 +69,8 @@ class Rating(db.Model):
             self.username = username
         if len(rating) > 0:
             self.rating = rating
+        if len(comment) >= 0:
+            self.comment = comment
         db.session.commit()
         return self
 
@@ -70,11 +83,11 @@ def initRatings():
     with app.app_context():
         db.create_all()
 
-        u1 = Rating('ABC', '1')
-        u2 = Rating('JJK', '2')
-        u3 = Rating('TES', '3')
-        u4 = Rating('QHF', '4')
-        u5 = Rating('IWO', '5')
+        u1 = Rating('ABC', '1', 'Good game')
+        u2 = Rating('JJK', '2', 'Wow i really enjoyed this game!')
+        u3 = Rating('TES', '3', '')
+        u4 = Rating('QHF', '4', 'More mods!')
+        u5 = Rating('IWO', '5', 'This game is trash')
 
         users = [u1, u2, u3, u4, u5]
         for user in users:
