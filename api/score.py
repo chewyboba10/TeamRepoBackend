@@ -20,7 +20,7 @@ class ScoreAPI:
             # Gets the username, checks if the username is exactly 3 characters. If it isn't 3 characters, POST is terminated
             username = data.get('username')
             if username is None or len(username) != 3:
-                return {'message': f'username is missing or longer than 3 characters'}, 210
+                return {'message': f'username is not 3 characters'}, 210
                 
             # Gets the score, checks if the score has more than 0 digits. If there is no digits, POST is terminated
             score = data.get('score')
