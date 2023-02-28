@@ -122,9 +122,9 @@ class Pong(db.Model):
             self.user1 = user1
         if len(user2) == 3:
             self.user2 = user2
-        if len(score1) <= 0:
+        if len(score1) >= 0:
             self.score1 = score1
-        if len(score2) <= 0:
+        if len(score2) >= 0:
             self.score2 = score2
         if len(result1) == "Won" or "Loss":
             self.result1 == result1
