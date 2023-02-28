@@ -9,9 +9,9 @@ from sqlalchemy.exc import IntegrityError
 
 
 class Pong(db.Model):
-    __tablename__ = 'pongs'  # table name is plural, class name is singular
+    __tablename__ = 'pongs'  
 
-    # Define the User schema with "vars" from object
+    # Define the Pong schema with "vars" from object
     id = db.Column(db.Integer, primary_key=True)
     _user1 = db.Column(db.String(255), unique=False, nullable=False)
     _user2 = db.Column(db.String(255), unique=False, nullable=False)
@@ -21,7 +21,7 @@ class Pong(db.Model):
     _result2 = db.Column(db.String(255), unique=False, nullable=False)
     _scoreDate = db.Column(db.Date)
 
-    # constructor of a User object, initializes the instance variables within object (self)
+    # constructor of a Pong object, initializes the instance variables within object (self)
     def __init__(self, user1="none", user2="none", score1='0', score2='0', result1="none", result2="none", scoreDate=date.today()): # variables with self prefix become part of the object, 
         self._user1 = user1
         self._user2 = user2
@@ -36,7 +36,7 @@ class Pong(db.Model):
     def user1(self):
         return self._user1
     
-    # a setter function, allows name to be updated after initial object creation
+    # a setter function, allows user1 to be updated after initial object creation. This one for player 1
     @user1.setter
     def user1(self, user1):
         self._user1 = user1
@@ -45,7 +45,7 @@ class Pong(db.Model):
     def user2(self):
         return self._user2
     
-    # a setter function, allows name to be updated after initial object creation
+    # a setter function for player 2
     @user2.setter
     def user2(self, user2):
         self._user2 = user2
@@ -54,7 +54,7 @@ class Pong(db.Model):
     def score1(self):
         return self._score1
     
-    # a setter function, allows name to be updated after initial object creation
+    # a setter function for score for player 1
     @score1.setter
     def score1(self, score1):
         self._score1 = score1
@@ -63,7 +63,7 @@ class Pong(db.Model):
     def score2(self):
         return self._score2
     
-    # a setter function, allows name to be updated after initial object creation
+    # a setter function for score for player 2
     @score2.setter
     def score2(self, score2):
         self._score2 = score2
@@ -72,7 +72,7 @@ class Pong(db.Model):
     def result1(self):
         return self._result1
     
-    # a setter function, allows name to be updated after initial object creation
+    # a setter function for the result of player 1
     @result1.setter
     def result1(self, result1):
         self._result1 = result1
@@ -81,12 +81,12 @@ class Pong(db.Model):
     def result2(self):
         return self._result2
     
-    # a setter function, allows name to be updated after initial object creation
+    # a setter function for the result of player 1
     @result2.setter
     def result2(self, result2):
         self._result2 = result2
     
-    # scoreDate property is returned as string, to avoid unfriendly outcomes
+    # scoreDate property is returned as string
     @property
     def scoreDate(self):
         scoreDate_string = self._scoreDate.strftime('%m-%d-%Y')
@@ -106,22 +106,30 @@ class Pong(db.Model):
     # returns self or None on error
     def create(self):
         try:
-            # creates a person object from User(db.Model) class, passes initializers
-            db.session.add(self)  # add prepares to persist person object to Users table
+            # creates a person object from Pong(db.Model) class, passes initializers
+            db.session.add(self)  # add prepares to persist person object to Pongs table
             db.session.commit()  # SqlAlchemy "unit of work pattern" requires a manual commit
             return self
         except IntegrityError:
             db.session.remove()
             return None
     
-    # CRUD update: updates user name, password, phone
+    # CRUD update: updates user1, user2, score1, score2, result1, result2
     # returns self
-    def update(self, user1="", user2=""):
+    def update(self, user1="", user2="", score1="", score2="", result1="", result2=""):
         """only updates values with length"""
-        if len(user1) != 3:
+        if len(user1) == 3:
             self.user1 = user1
-        if len(user2) != 3:
+        if len(user2) == 3:
             self.user2 = user2
+        if len(score1) <= 0:
+            self.score1 = score1
+        if len(score2) <= 0:
+            self.score2 = score2
+        if len(result1) == "Won" or "Loss":
+            self.result1 == result1
+        if len(result2) == "Won" or "Loss":
+            self.result2 = result2
         db.session.commit()
         return self
 
@@ -156,20 +164,20 @@ def initPong():
         """Create database and tables"""
         db.create_all()
         """Tester data for table"""
-        u1 = Pong('AAA', 'BBB', '1', '5', 'Loss', 'Win', date(2023, 1, 22))
-        u2 = Pong('AAB', 'ABC', '2', '5', 'Loss', 'Win', date(2023, 1, 21))
-        u3 = Pong('AAC', 'GHI', '5', '4', 'Win', 'Loss', date(2023, 1, 20))
-        u4 = Pong('AAD', 'FGH', '5', '1', 'Win', 'Loss', date(2023, 1, 19))
-        u5 = Pong('AAE', 'TYU', '3','5', 'Loss', 'Win', date(2023, 1, 22))
+        game1 = Pong('AAA', 'BBB', '1', '5', 'Loss', 'Win', date(2023, 1, 22))
+        game2 = Pong('AAB', 'ABC', '2', '5', 'Loss', 'Win', date(2023, 1, 21))
+        game3 = Pong('AAC', 'GHI', '5', '4', 'Win', 'Loss', date(2023, 1, 20))
+        game4 = Pong('AAD', 'FGH', '5', '1', 'Win', 'Loss', date(2023, 1, 19))
+        game5 = Pong('AAE', 'TYU', '3','5', 'Loss', 'Win', date(2023, 1, 22))
 
-        users = [u1, u2, u3, u4, u5]
+        games = [game1, game2, game3, game4, game5]
 
         """Builds sample user/note(s) data"""
-        for user in users:
+        for game in games:
             try:
-                user.create()
+                game.create()
             except IntegrityError:
                 '''fails with bad or duplicate data'''
                 db.session.remove()
-                print(f"Records exist, duplicate email, or error in {user.user1} and/or {user.user2}")
+                print(f"Records exist, duplicate email, or error in {game.user1} and/or {game.user2}")
         
