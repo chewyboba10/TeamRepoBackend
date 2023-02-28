@@ -127,9 +127,9 @@ class Pong(db.Model):
         if int(score2) >= 0:
             self.score2 = score2
         """only updates when the results are either won or loss"""
-        if result1 in ("Won", "Loss"):
+        if result1 in ("Win", "Loss"):
             self.result1 = result1
-        if result2 in ("Won", "Loss"):
+        if result2 in ("Win", "Loss"):
             self.result2 = result2
         db.session.commit()
         return self

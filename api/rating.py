@@ -49,7 +49,7 @@ class RatingsAPI:
             if userUpdate:
                 userUpdate.update(rating = ratingData)
                 userUpdate.update(comment = commentData)
-                return jsonify(userUpdating.make_dict())
+                return jsonify(userUpdate.make_dict())
             else:
                 return {'message': f'{usernameData} not found'}, 210
 

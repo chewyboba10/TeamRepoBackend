@@ -21,19 +21,19 @@ class PongAPI:
             
             # Change later to exclude negative scores
             score1 = data.get('score1')
-            if score1 is None or len(score1) <= 0:
+            if score1 is None or int(score1) <= 0:
                 return {'message': f'Score 1 does not exist, is missing, or is invalid'}, 210 
 
             score2 = data.get('score2')
-            if score2 is None or len(score2) <= 0:
+            if score2 is None or int(score2) <= 0:
                 return {'message': f'Score 2 does not exist, is missing, or is invalid'}, 210 
                 
             result1 = data.get('result1')
-            if result1 is None:
+            if result1 not in ("Win", "Loss"):
                 return {'message': f'Game result does not exist or is missing'}, 210 
             
             result2 = data.get('result2')
-            if result2 is None:
+            if result2 not in ("Win", "Loss"):
                 return {'message': f'Game result does not exist or is missing'}, 210 
             
             gameDatetime = data.get('gameDatetime')
@@ -66,15 +66,17 @@ class PongAPI:
             score2Data = data.get('score2')
             result1Data = data.get('result1')
             result2Data = data.get('result2')
+
             # Gets the player 1 information through the user1
             pongGameUpdate1 = Pong.query.filter_by(_user1=user1Data).first()
-            # Gets the player 2 information through the user2
-            pongGameUpdate2 = Pong.query.filter_by(_user2=user2Data).first()
 
             if not pongGameUpdate1:
                 return {'message': f'{user1Data} not found'}, 210
 
             pongGameUpdate1.update(score1=score1Data, result1=result1Data)
+
+            # Gets the player 2 information through the user2
+            pongGameUpdate2 = Pong.query.filter_by(_user2=user2Data).first()
 
             if not pongGameUpdate2:
                 return {'message': f'{user2Data} not found'}, 210
@@ -82,6 +84,7 @@ class PongAPI:
             pongGameUpdate2.update(score2=score2Data, result2=result2Data)
 
             return {'message': f'{user1Data} and {user2Data} updated'}, 210
+
 
 
     class PongDelete(Resource):
