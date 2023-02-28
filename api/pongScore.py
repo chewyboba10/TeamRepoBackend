@@ -60,15 +60,27 @@ class PongAPI:
     class PongUpdate(Resource):
         def put(self):
             data = request.get_json()
-            usernameData = data.get('username') # get the UID (Know what to reference)
-            scoreData = data.get('score') # get what needs to be updated
-            pongGameUpdate = Pong.query.filter_by(_username = usernameData).first() # get the user (using the uid in this case)
-            if pongGameUpdate:
-                pongGameUpdate.update(score = scoreData)
-                # return {'message':f"{usernameData} updated"}, 210
-                return jsonify(pongGameUpdate.make_dict())
-            else:
-                return {'message': f'{usernameData} not found'}, 210
+            user1Data = data.get('user1')
+            user2Data = data.get('user2')
+            score1Data = data.get('score1')
+            score2Data = data.get('score2')
+            result1Data = data.get('result1')
+            result2Data = data.get('result2')
+            pongGameUpdate1 = Pong.query.filter_by(_user1=user1Data).first()
+            pongGameUpdate2 = Pong.query.filter_by(_user2=user2Data).first()
+
+            if not pongGameUpdate1:
+                return {'message': f'{user1Data} not found'}, 210
+
+            pongGameUpdate1.update(score1=score1Data, result1=result1Data)
+
+            if not pongGameUpdate2:
+                return {'message': f'{user2Data} not found'}, 210
+
+            pongGameUpdate2.update(score2=score2Data, result2=result2Data)
+
+            return {'message': f'{user1Data} and {user2Data} updated'}, 210
+
 
     class PongDelete(Resource):
         def delete(self):
@@ -77,11 +89,13 @@ class PongAPI:
             pongGameDeleting = Pong.query.get(getID)
             if pongGameDeleting:
                 pongGameDeleting.delete()
-                return {'message': f'Username {getID} profile deleted'}, 210
+                return {'message': f'Game ID {getID} deleted'}, 210
             else:
-                return {'message': f'Username {getID} profile not found'}, 210
+                return {'message': f'Game ID {getID} not found'}, 210
 
     pongs_api.add_resource(PongCreate, '/addPongScore')
     pongs_api.add_resource(PongListAPI, '/pongList')
+    pongs_api.add_resource(PongUpdate, '/updatePong')
+    pongs_api.add_resource(PongDelete, '/deletePong')
 
 
