@@ -60,7 +60,7 @@ class Rating(db.Model):
             "id": self.id,
             "username": self.username,
             "rating": self.rating,
-            "comments": self.comment
+            "comment": self.comment
         }
     
     def update(self, username="", rating=""):
