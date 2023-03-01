@@ -83,11 +83,11 @@ def initRatings():
     with app.app_context():
         db.create_all()
 
-        u1 = Rating('ABC', '1', 'Good game')
-        u2 = Rating('JJK', '2', 'Wow i really enjoyed this game!')
-        u3 = Rating('TES', '3', '')
-        u4 = Rating('QHF', '4', 'More mods!')
-        u5 = Rating('IWO', '5', 'This game is trash')
+        u1 = Rating('ABC', '5', 'Good game')
+        u2 = Rating('JJK', '5', 'Wow i really enjoyed this game!')
+        u3 = Rating('TES', '4', '')
+        u4 = Rating('QHF', '3', 'More mods!')
+        u5 = Rating('IWO', '2', 'This game is trash')
 
         users = [u1, u2, u3, u4, u5]
         for user in users:
