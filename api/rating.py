@@ -23,7 +23,7 @@ class RatingsAPI:
                 return {'message': f'Rating does not exist or is missing'}, 210 
             
             comment = data.get('comment')
-            if comment is None:
+            if comment is None or len(comment) > 400:
                 return {'message': f'Comment does not exist or is too long'}, 210 
 
             userPerson = Rating(username=username, rating=rating, comment=comment)
