@@ -1,9 +1,8 @@
 """ database dependencies to support sqliteDB examples """
 from random import randrange
-from datetime import date
+from datetime import datetime
 import os, base64
 import json
-
 from __init__ import app, db
 from sqlalchemy.exc import IntegrityError
 
@@ -19,17 +18,17 @@ class Pong(db.Model):
     _score2 = db.Column(db.String(255), unique=False, nullable=False)
     _result1 = db.Column(db.String(255), unique=False, nullable=False)
     _result2 = db.Column(db.String(255), unique=False, nullable=False)
-    _scoreDate = db.Column(db.Date)
+    _gameDatetime = db.Column(db.DateTime)
 
     # constructor of a Pong object, initializes the instance variables within object (self)
-    def __init__(self, user1="none", user2="none", score1='0', score2='0', result1="none", result2="none", scoreDate=date.today()): # variables with self prefix become part of the object, 
+    def __init__(self, user1="none", user2="none", score1='0', score2='0', result1="none", result2="none", gameDatetime=datetime.now()): # variables with self prefix become part of the object, 
         self._user1 = user1
         self._user2 = user2
         self._score1 = score1
         self._score2 = score2
         self._result1 = result1
         self._result2 = result2
-        self._scoreDate = scoreDate
+        self._gameDatetime = gameDatetime
     
     # a getter method, extracts email from object
     @property
@@ -88,14 +87,14 @@ class Pong(db.Model):
     
     # scoreDate property is returned as string
     @property
-    def scoreDate(self):
-        scoreDate_string = self._scoreDate.strftime('%m-%d-%Y')
-        return scoreDate_string
+    def gameDatetime(self):
+        gameDatetime_string = self._gameDatetime.strftime('%m-%d-%Y %H:%M:%S')
+        return gameDatetime_string
     
     # scoreDate should be have verification for type date
-    @scoreDate.setter
-    def scoreDate(self, scoreDate):
-        self._scoreDate = scoreDate
+    @gameDatetime.setter
+    def gameDatetime(self, gameDatetime):
+        self._gameDatetime = gameDatetime
     
     # output content using str(object) in human readable form, uses getter
     # output content using json dumps, this is ready for API response
@@ -122,13 +121,15 @@ class Pong(db.Model):
             self.user1 = user1
         if len(user2) == 3:
             self.user2 = user2
-        if len(score1) >= 0:
+        """only updates values with scores greater than 0"""
+        if int(score1) >= 0:
             self.score1 = score1
-        if len(score2) >= 0:
+        if int(score2) >= 0:
             self.score2 = score2
-        if len(result1) == "Won" or "Loss":
-            self.result1 == result1
-        if len(result2) == "Won" or "Loss":
+        """only updates when the results are either won or loss"""
+        if result1 in ("Won", "Loss"):
+            self.result1 = result1
+        if result2 in ("Won", "Loss"):
             self.result2 = result2
         db.session.commit()
         return self
@@ -150,7 +151,7 @@ class Pong(db.Model):
             "score2": self.score2,
             "result1": self.result1,
             "result2": self.result2,
-            "scoreDate": self.scoreDate
+            "scoreDate": self.gameDatetime
         }
 
 
@@ -164,20 +165,20 @@ def initPong():
         """Create database and tables"""
         db.create_all()
         """Tester data for table"""
-        game1 = Pong('AAA', 'BBB', '1', '5', 'Loss', 'Win', date(2023, 1, 22))
-        game2 = Pong('AAB', 'ABC', '2', '5', 'Loss', 'Win', date(2023, 1, 21))
-        game3 = Pong('AAC', 'GHI', '5', '4', 'Win', 'Loss', date(2023, 1, 20))
-        game4 = Pong('AAD', 'FGH', '5', '1', 'Win', 'Loss', date(2023, 1, 19))
-        game5 = Pong('AAE', 'TYU', '3','5', 'Loss', 'Win', date(2023, 1, 22))
+        game1 = Pong('AAA', 'BBB', '1', '5', 'Loss', 'Win', datetime(2023, 1, 22, 15, 30, 0))
+        game2 = Pong('AAB', 'ABC', '2', '5', 'Loss', 'Win', datetime(2023, 1, 21, 14, 15, 0))
+        game3 = Pong('AAC', 'GHI', '5', '4', 'Win', 'Loss', datetime(2023, 1, 20, 13, 0, 0))
+        game4 = Pong('AAD', 'FGH', '5', '1', 'Win', 'Loss', datetime(2023, 1, 19, 12, 45, 0))
+        game5 = Pong('AAE', 'TYU', '3', '5', 'Loss', 'Win', datetime(2023, 1, 22, 11, 30, 0))
 
         games = [game1, game2, game3, game4, game5]
 
-        """Builds sample user/note(s) data"""
+        """Builds sample game data"""
         for game in games:
             try:
                 game.create()
             except IntegrityError:
-                '''fails with bad or duplicate data'''
+                '''fails with bad data'''
                 db.session.remove()
-                print(f"Records exist, duplicate email, or error in {game.user1} and/or {game.user2}")
+                print(f"Error in {game.user1} and/or {game.user2}")
         

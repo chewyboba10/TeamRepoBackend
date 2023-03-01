@@ -63,7 +63,7 @@ class Rating(db.Model):
             "comment": self.comment
         }
     
-    def update(self, username="", rating=""):
+    def update(self, username="", rating="", comment=""):
         """only updates values with length"""
         if len(username) == 3:
             self.username = username

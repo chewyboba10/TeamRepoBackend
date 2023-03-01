@@ -36,15 +36,15 @@ class PongAPI:
             if result2 is None:
                 return {'message': f'Game result does not exist or is missing'}, 210 
             
-            scoreDate = data.get('scoreDate')
+            gameDatetime = data.get('gameDatetime')
 
             pongProfile = Pong(user1=user1, user2=user2, score1=score1, score2=score2, result1=result1, result2=result2)
 
-            if scoreDate is not None:
+            if gameDatetime is not None:
                 try:
-                    pongProfile.scoreDate = datetime.strptime(scoreDate, '%m-%d-%Y').date()
+                    pongProfile.gameDatetime = datetime.strptime(gameDatetime, '%m-%d-%Y %H:%M:%S').now()
                 except:
-                    return {'message': f'Date obtained score format error {scoreDate}, must be mm-dd-yyyy'}, 210
+                    return {'message': f'Date obtained score format error {gameDatetime}, must be mm-dd-yyyy'}, 210
             
             user = pongProfile.create()
             if user:
@@ -66,7 +66,9 @@ class PongAPI:
             score2Data = data.get('score2')
             result1Data = data.get('result1')
             result2Data = data.get('result2')
+            # Gets the player 1 information through the user1
             pongGameUpdate1 = Pong.query.filter_by(_user1=user1Data).first()
+            # Gets the player 2 information through the user2
             pongGameUpdate2 = Pong.query.filter_by(_user2=user2Data).first()
 
             if not pongGameUpdate1:
