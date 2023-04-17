@@ -21,7 +21,7 @@ class Pong(db.Model):
     _gameDatetime = db.Column(db.DateTime)
 
     # constructor of a Pong object, initializes the instance variables within object (self)
-    def __init__(self, user1="none", user2="none", score1='0', score2='0', result1="none", result2="none", gameDatetime=datetime.now()): # variables with self prefix become part of the object, 
+    def __init__(self, user1="none", user2="none", score1='0', score2='0', result1="none", result2="none", gameDatetime=datetime): # variables with self prefix become part of the object, 
         self._user1 = user1
         self._user2 = user2
         self._score1 = score1

@@ -38,11 +38,16 @@ class PongAPI:
             
             gameDatetime = data.get('gameDatetime')
 
-            pongProfile = Pong(user1=user1, user2=user2, score1=score1, score2=score2, result1=result1, result2=result2)
+            pongProfile = Pong(user1=user1, 
+                               user2=user2, 
+                               score1=score1, 
+                               score2=score2, 
+                               result1=result1, 
+                               result2=result2)
 
             if gameDatetime is not None:
                 try:
-                    pongProfile.gameDatetime = datetime.strptime(gameDatetime, '%m-%d-%Y %H:%M:%S').now()
+                    pongProfile.gameDatetime = datetime.strptime(gameDatetime, '%m-%d-%Y %H:%M:%S')
                 except:
                     return {'message': f'Date obtained score format error {gameDatetime}, must be mm-dd-yyyy'}, 210
             
